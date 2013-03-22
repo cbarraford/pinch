@@ -1,0 +1,36 @@
+#newUser
+  %form{'class' => 'form-horizontal', :action => "/users/new", :method => "post"}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Name'}= "Name"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'name', 'id' => 'name', 'placeholder' => 'John Smith'}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Company'}= "Company"
+      %div{'class' => 'controls'}
+        - if locals[:defaults][:company].nil?
+          %input{'type' => 'text', 'name' => 'company', 'id' => 'company', 'placeholder' => 'Google'}
+        - else
+          %input{'type' => 'text', 'name' => 'company', 'id' => 'company', 'value' => locals[:defaults][:company]}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Title'}= "Title"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'title', 'id' => 'title', 'placeholder' => 'Engineer'}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Email'}= "Email"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'email', 'id' => 'email', 'placeholder' => 'jsmith@company.com'}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Username'}= "Username"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'username', 'id' => 'username', 'placeholder' => 'jsmith'}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Password'}= "Password"
+      %div{'class' => 'controls'}
+        %input{'type' => 'password', 'name' => 'password', 'id' => 'password'}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Password'}= "Password Again"
+      %div{'class' => 'controls'}
+        %input{'type' => 'password', 'name' => 'password2', 'id' => 'password2'}
+    %div{'class' => 'control-group'}
+      %div{'class' => 'controls'}
+        %button{'type' => 'submit', 'id' => 'newUserBtn', 'class' => 'btn btn-primary'}= "Create User"

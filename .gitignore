@@ -11,8 +11,13 @@ spec/reports
 test/tmp
 test/version_tmp
 tmp
+*.swp
 
 # YARD artifacts
 .yardoc
 _yardoc
 doc/
+
+.env
+.Procfile
+*.lock

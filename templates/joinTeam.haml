@@ -1,0 +1,13 @@
+#newTeam
+  %form{'class' => 'form-horizontal', :action => "/app/teams/join", :method => "post"}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Username'}= "Username"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'username', 'id' => 'username', :readonly => "readonly", 'value' => locals[:username]}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Team'}= "Team"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'team', 'id' => 'team'}
+    %div{'class' => 'control-group'}
+      %div{'class' => 'controls'}
+        %button{'type' => 'submit', 'id' => 'joinTeamBtn', 'class' => 'btn btn-primary'}= "Join Team"

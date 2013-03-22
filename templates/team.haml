@@ -1,0 +1,102 @@
+%link{:rel => "stylesheet", :type => "text/css", :href  => "/css/team.css"}
+%script{:type => "text/javascript", :src => "/js/team.js"}
+%div{'class' => 'hero-unit', 'style' => 'margin-bottom:0px;'}
+  %h2{ :float => 'left'}= "Hey team #{locals[:team]['name']}"
+  %p= "Welcome back!"
+  %form{'class' => 'form-horizontal', :action => "/app/team/#{locals[:team]['name']}/incident", :method => "post"}
+    %div{'class' => 'control-group'}
+      %div{'class' => 'controls'}
+        %button{'type' => 'submit', 'id' => 'startIncident', 'class' => 'btn btn-primary btn-large'} Start New Incident
+
+%ul{:class => 'nav nav-tabs'}
+  %li
+    %a{'href' => '#incidents', 'data-toggle' => 'tab'}= "Incidents"
+  %li
+    %a{'href' => '#members', 'data-toggle' => 'tab'}
+      = "Members"
+      - if not locals[:team]['admins'].nil? and locals[:team]['members'].length > 0 
+        %span{:class => 'badge'}= (locals[:team]['admins'] + locals[:team]['members']).length
+  - if locals[:admin]
+    %li
+      %a{'href' => '#requests', 'data-toggle' => 'tab'}
+        = "Requests"
+        - if not locals[:team]['requests'].nil? and locals[:team]['requests'].length > 0
+          %span{:class => 'badge badge-important'}= locals[:team]['requests'].length
+
+.tab-content
+  #incidents{:class => "tab-pane fade"}
+    - if locals[:team]['incidents'].nil? or locals[:team]['incidents'].empty?
+      .grayedOut
+      %p= "No incidents yet."
+    - else
+      %table{'class' => 'table table-striped'}
+        %tr
+          %th= "Incident ID"
+          %th= "Date"
+          %th= "State"
+          -#%th= "Delete"
+        - locals[:team]['incidents'].reverse.each do |incident|
+          %tr
+            %td
+              %a{:title => "#{incident}", :href => "./#{locals[:team]['name']}/#{incident}"}= "#{incident}"
+            %td= "#{Time.at(locals[:team]['createDate'].to_f).ctime}"
+            - if locals[:team]['current_incident'] == incident
+              %td{:class => "alert alert-success"}= "Open"
+            - else
+              %td{:class => "alert alert-warning"}= "Closed"
+            %td
+              -#%form{'class' => 'form-horizontal', :action => "/app/team/#{locals[:team]['name']}/#{incident}", :method => "post"}
+                %div{'class' => 'control-group'}
+                  %div{'class' => 'controls'}
+                    %button{'type' => 'submit', 'class' => 'btn btn-danger btn-small'}
+                      %i{:class => "icon-white icon-remove-sign"}
+                      = "Delete"
+  #members{:class => "tab-pane fade"}
+    %table{'class' => 'table table-striped', :style => "width:300px"}
+      %tr
+        %th= "Username"
+        %th= "Type"
+        %th= "Revoke Access"
+      - (locals[:team]['admins'] + locals[:team]['members']).sort.each do |member|
+        - if member != @session[:username] and member != "" and member != nil
+          %tr
+            %td= member
+            - if locals[:team]['admins'].include?(member)
+              %td= "admin"
+            - else
+              %td= "member"
+            %td
+              %form{'class' => 'form', :action => "/app/team/#{locals[:team]['name']}/revoke/#{member}", :method => "post"}
+                %div{'class' => 'control-group'}
+                  %div{'class' => 'controls'}
+                    %button{'type' => 'submit', 'class' => 'btn btn-danger btn-small'}
+                      %i{:class => "icon-white icon-remove-sign"}
+                      = "Revoke"
+  - if locals[:admin]
+    #requests{:class => "tab-pane fade"}
+      - if locals[:team]['requests'].nil? or locals[:team]['requests'].length == 0
+        %p= "You have no pending requests"
+      - else
+        %table{'class' => 'table table-striped', :style => "width:300px"}
+          %tr 
+            %th= "Username"
+            %th= "Access"
+          - locals[:team]['requests'].each do |requester|
+            %tr 
+              %td= requester
+              %td
+                %form{'class' => 'form', :action => "/app/team/#{locals[:team]['name']}/grant/#{requester}", :method => "post"}
+                  %div{'class' => 'control-group'}
+                    %div{'class' => 'controls'}
+                      %button{'type' => 'submit', 'class' => 'btn btn-success btn-small'}
+                        %i{:class => "icon-white icon-ok-sign"}
+                        = "Grant"
+                %form{'class' => 'form', :action => "/app/team/#{locals[:team]['name']}/deny/#{requester}", :method => "post"}
+                  %div{'class' => 'control-group'}
+                    %div{'class' => 'controls'}
+                      %button{'type' => 'submit', 'class' => 'btn btn-danger btn-small'}
+                        %i{:class => "icon-white icon-remove-sign"}
+                        = "Deny"
+
+:javascript
+  $('#content a[href="#incidents"]').tab('show')

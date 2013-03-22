@@ -1,0 +1,9 @@
+#newTeam
+  %form{'class' => 'form-horizontal', :action => "/app/teams/new", :method => "post"}
+    %div{'class' => 'control-group'}
+      %label{'class' => 'control-label', 'for' => 'Company'}= "Company"
+      %div{'class' => 'controls'}
+        %input{'type' => 'text', 'name' => 'name', 'id' => 'name'}
+    %div{'class' => 'control-group'}
+      %div{'class' => 'controls'}
+        %button{'type' => 'submit', 'id' => 'createTeamBtn', 'class' => 'btn btn-primary'}= "Create Team"

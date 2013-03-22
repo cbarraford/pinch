@@ -1,0 +1,56 @@
+%div{'class' => 'hero-unit', 'style' => 'margin-bottom:0px;'}
+  %h2{ :float => 'left'}= "Hey #{locals[:user]['name']}"
+  %p= "Welcome back!"
+  %a{:title => "Join Team", :class => "btn btn-primary btn-large", 'href' => "/app/user/#{locals[:user]['username']}/join", 'style' => 'float:right;' } Join Team
+  %span{'style' => 'float:right; margin:8px;'}= " or "
+  %a{:title => "Create Team", :class => "btn btn-primary btn-large", 'href' => "/app/teams/new", 'style' => 'float:right;' } Create Team
+%ul{:class => 'nav nav-tabs'}
+  %li 
+    %a{'href' => '#incidents', 'data-toggle' => 'tab'}= "Incidents"
+  %li 
+    %a{'href' => '#teams', 'data-toggle' => 'tab'}= "Teams"
+.tab-content
+  #incidents{:class => "tab-pane fade"}
+    - if locals[:user]['adminOf'].length == 0 and locals[:user]['memberOf'].length == 0
+      %p= "You haven't been added to or created any teams yet. So you have no incident to display"
+    - else
+      %table{'class' => 'table table-striped'}
+        %tr
+          %th
+          %th= "Team Name"
+          %th= "Date"
+          %th= "State"
+        - locals[:incidents].reverse.each do |incident|
+          %tr
+            %td
+              %a{:title => "Incident ID: #{incident['id']}", :class => "btn btn-info btn-small", 'href' => "/app/team/#{incident['team']}/#{incident['id']}" }
+                = "View"
+                %i{:class => "icon-white icon-circle-arrow-right"}
+            %td 
+              %a{:title => "Goto team #{incident['team']}", :href => "/app/team/#{incident['team']}"}= "#{incident['team']}"
+            %td= "#{Time.at(incident['createDate'].to_f).ctime}"
+            - if incident['open'] == true
+              %td{:class => "alert alert-success"}= "Open"
+            - else
+              %td{:class => "alert alert-warning"}= "Closed"
+  #teams{:class => "tab-pane fade"}
+    - if not locals[:user]['memberOf'].empty?
+      %table{'class' => 'table table-striped', :style => "width:200px"}
+        %tr
+          %th= "Member Of"
+        - locals[:user]['memberOf'].each do |team|
+          %tr
+            %td
+              %a{'href' => "/app/team/#{team['name']}"}= team['name']
+    - if not locals[:user]['adminOf'].empty?
+      %table{'class' => 'table table-striped', :style => "width:200px"}
+        %tr
+          %th= "Admin Of"
+        - locals[:user]['adminOf'].each do |team|
+          - if team != nil and team != '' 
+            %tr
+              %td
+                %a{'href' => "/app/team/#{team['name']}"}= team['name']
+
+:javascript
+  $('#content a[href="#incidents"]').tab('show')

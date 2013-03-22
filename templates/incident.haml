@@ -1,0 +1,36 @@
+%script{:type => "text/javascript", :src => "/js/incident.js"}
+%link{:rel => "stylesheet", :type => "text/css", :href => "/css/incident.css"}
+:javascript
+  team = "#{locals[:incident]['team']['name']}"
+  incident = "#{locals[:incident]['id']}"
+  username = "#{@session[:username]}"
+
+.timeline{:class => "span6"}
+  %h4= "Timeline"
+  .btn-group{:id => 'timeline', 'data-toggle' => "buttons-checkbox", :class => "filter"}
+    %button{:id => 'major', :type => "button", :class => "btn btn-small active"}= "Major"
+    %button{:id => 'minor', :type => "button", :class => "btn btn-small active"}= "Minor"
+    %button{:id => 'atomic', :type => "button", :class => "btn btn-small active"}= "Atomic"
+  %button{'type' => 'button', 'class' => 'btn btn-primary', 'id' => 'newEventBtn'}= "New Event"
+  #new-event-modal
+  #vert_bar
+    #major{:title => "Major"}
+      %img(src="/img/sym_major.png")
+    #minor{:title => "Minor"}
+      %img(src="/img/sym_minor.png")
+    #atomic{:title => "Atomic"}
+      %img(src="/img/sym_atomic.png")
+  #timelineEvent
+.tasklist{:class => "span6"}
+  %h4= "Task List"
+  #filters{:style => 'float:left;'}
+    .btn-group{:id => 'tasklist', 'data-toggle' => "buttons-checkbox", :class => "filter"}
+      %button{:id => 'open', :type => "button", :class => "btn btn-small active"}= "Open"
+      %button{:id => 'closed', :type => "button", :class => "btn btn-small active"}= "Close"
+    .btn-group{:id => 'tasklist', 'data-toggle' => "buttons-checkbox", :class => "filter"}
+      %button{:id => 'major', :type => "button", :class => "btn btn-small active"}= "Major"
+      %button{:id => 'minor', :type => "button", :class => "btn btn-small active"}= "Minor"
+      %button{:id => 'atomic', :type => "button", :class => "btn btn-small active"}= "Atomic"
+  %button{'type' => 'button', 'class' => 'btn btn-primary', 'id' => 'newTaskBtn'}= "New Task"
+  #new-task-modal
+  #tasklistItem

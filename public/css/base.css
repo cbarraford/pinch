@@ -1,0 +1,53 @@
+/* @override 
+	http://localhost:5000/css/boot_base.css
+	http://localhost:5000/css/base.css
+*/
+
+#wrapper {
+	width: 940px;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+}
+
+#header {
+    background-color: #1F3642;
+}
+
+#logo {
+    font-size: 64px;
+    color: #FFE2B3;
+    padding: 40px;
+    font-family: 'Audiowide', cursive;
+}
+
+#content {
+    border: 1px;
+    border-style: solid;
+    border-color: gray;
+    border-top-style: none;
+    margin-top: -20px;
+    padding-bottom: 1500px;
+}
+
+#login, #newUser, #newTeam {
+    width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    padding: 100px 100px;
+}
+
+.grayedOut { color: gray; }
+
+#teams ul {
+	width: 200px;
+	float: left;
+}
+
+#teams ul li {
+	list-style: none;
+}
+
+.navbar {
+
+}
